@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htu.ssm.mapper.OrderdetailMapper">
+
+    <resultMap id="BaseResultMap" type="com.htu.ssm.po.Orderdetail">
+            <id property="odId" column="od_Id" jdbcType="INTEGER"/>
+            <result property="odOrderId" column="od_order_id" jdbcType="INTEGER"/>
+            <result property="odFoodId" column="od_food_id" jdbcType="INTEGER"/>
+            <result property="odQuantity" column="od_quantity" jdbcType="INTEGER"/>
+            <result property="odTotal" column="od_total" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        od_Id,od_order_id,od_food_id,
+        od_quantity,od_total
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from orderdetail
+        where  od_Id = #{odId,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from orderdetail
+        where  od_Id = #{odId,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="od_Id" keyProperty="odId" parameterType="com.htu.ssm.po.Orderdetail" useGeneratedKeys="true">
+        insert into orderdetail
+        ( od_Id,od_order_id,od_food_id
+        ,od_quantity,od_total)
+        values (#{odId,jdbcType=INTEGER},#{odOrderId,jdbcType=INTEGER},#{odFoodId,jdbcType=INTEGER}
+        ,#{odQuantity,jdbcType=INTEGER},#{odTotal,jdbcType=DOUBLE})
+    </insert>
+    <insert id="insertSelective" keyColumn="od_Id" keyProperty="odId" parameterType="com.htu.ssm.po.Orderdetail" useGeneratedKeys="true">
+        insert into orderdetail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="odId != null">od_Id,</if>
+                <if test="odOrderId != null">od_order_id,</if>
+                <if test="odFoodId != null">od_food_id,</if>
+                <if test="odQuantity != null">od_quantity,</if>
+                <if test="odTotal != null">od_total,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="odId != null">#{odId,jdbcType=INTEGER},</if>
+                <if test="odOrderId != null">#{odOrderId,jdbcType=INTEGER},</if>
+                <if test="odFoodId != null">#{odFoodId,jdbcType=INTEGER},</if>
+                <if test="odQuantity != null">#{odQuantity,jdbcType=INTEGER},</if>
+                <if test="odTotal != null">#{odTotal,jdbcType=DOUBLE},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.htu.ssm.po.Orderdetail">
+        update orderdetail
+        <set>
+                <if test="odOrderId != null">
+                    od_order_id = #{odOrderId,jdbcType=INTEGER},
+                </if>
+                <if test="odFoodId != null">
+                    od_food_id = #{odFoodId,jdbcType=INTEGER},
+                </if>
+                <if test="odQuantity != null">
+                    od_quantity = #{odQuantity,jdbcType=INTEGER},
+                </if>
+                <if test="odTotal != null">
+                    od_total = #{odTotal,jdbcType=DOUBLE},
+                </if>
+        </set>
+        where   od_Id = #{odId,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.htu.ssm.po.Orderdetail">
+        update orderdetail
+        set 
+            od_order_id =  #{odOrderId,jdbcType=INTEGER},
+            od_food_id =  #{odFoodId,jdbcType=INTEGER},
+            od_quantity =  #{odQuantity,jdbcType=INTEGER},
+            od_total =  #{odTotal,jdbcType=DOUBLE}
+        where   od_Id = #{odId,jdbcType=INTEGER} 
+    </update>
+</mapper>

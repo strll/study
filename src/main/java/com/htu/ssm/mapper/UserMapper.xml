@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htu.ssm.mapper.UserMapper">
+
+    <resultMap id="BaseResultMap" type="com.htu.ssm.po.User">
+            <id property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+            <result property="userLogname" column="user_logname" jdbcType="VARCHAR"/>
+            <result property="userPass" column="user_pass" jdbcType="VARCHAR"/>
+            <result property="userSex" column="user_sex" jdbcType="VARCHAR"/>
+            <result property="userBirth" column="user_birth" jdbcType="DATE"/>
+            <result property="userImg" column="user_img" jdbcType="VARCHAR"/>
+            <result property="userStatus" column="user_status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        user_id,user_name,user_logname,
+        user_pass,user_sex,user_birth,
+        user_img,user_status
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from user
+        where  user_id = #{userId,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from user
+        where  user_id = #{userId,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="user_id" keyProperty="userId" parameterType="com.htu.ssm.po.User" useGeneratedKeys="true">
+        insert into user
+        ( user_id,user_name,user_logname
+        ,user_pass,user_sex,user_birth
+        ,user_img,user_status)
+        values (#{userId,jdbcType=INTEGER},#{userName,jdbcType=VARCHAR},#{userLogname,jdbcType=VARCHAR}
+        ,#{userPass,jdbcType=VARCHAR},#{userSex,jdbcType=VARCHAR},#{userBirth,jdbcType=DATE}
+        ,#{userImg,jdbcType=VARCHAR},#{userStatus,jdbcType=INTEGER})
+    </insert>
+    <insert id="insertSelective" keyColumn="user_id" keyProperty="userId" parameterType="com.htu.ssm.po.User" useGeneratedKeys="true">
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="userId != null">user_id,</if>
+                <if test="userName != null">user_name,</if>
+                <if test="userLogname != null">user_logname,</if>
+                <if test="userPass != null">user_pass,</if>
+                <if test="userSex != null">user_sex,</if>
+                <if test="userBirth != null">user_birth,</if>
+                <if test="userImg != null">user_img,</if>
+                <if test="userStatus != null">user_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="userId != null">#{userId,jdbcType=INTEGER},</if>
+                <if test="userName != null">#{userName,jdbcType=VARCHAR},</if>
+                <if test="userLogname != null">#{userLogname,jdbcType=VARCHAR},</if>
+                <if test="userPass != null">#{userPass,jdbcType=VARCHAR},</if>
+                <if test="userSex != null">#{userSex,jdbcType=VARCHAR},</if>
+                <if test="userBirth != null">#{userBirth,jdbcType=DATE},</if>
+                <if test="userImg != null">#{userImg,jdbcType=VARCHAR},</if>
+                <if test="userStatus != null">#{userStatus,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.htu.ssm.po.User">
+        update user
+        <set>
+                <if test="userName != null">
+                    user_name = #{userName,jdbcType=VARCHAR},
+                </if>
+                <if test="userLogname != null">
+                    user_logname = #{userLogname,jdbcType=VARCHAR},
+                </if>
+                <if test="userPass != null">
+                    user_pass = #{userPass,jdbcType=VARCHAR},
+                </if>
+                <if test="userSex != null">
+                    user_sex = #{userSex,jdbcType=VARCHAR},
+                </if>
+                <if test="userBirth != null">
+                    user_birth = #{userBirth,jdbcType=DATE},
+                </if>
+                <if test="userImg != null">
+                    user_img = #{userImg,jdbcType=VARCHAR},
+                </if>
+                <if test="userStatus != null">
+                    user_status = #{userStatus,jdbcType=INTEGER},
+                </if>
+        </set>
+        where   user_id = #{userId,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.htu.ssm.po.User">
+        update user
+        set 
+            user_name =  #{userName,jdbcType=VARCHAR},
+            user_logname =  #{userLogname,jdbcType=VARCHAR},
+            user_pass =  #{userPass,jdbcType=VARCHAR},
+            user_sex =  #{userSex,jdbcType=VARCHAR},
+            user_birth =  #{userBirth,jdbcType=DATE},
+            user_img =  #{userImg,jdbcType=VARCHAR},
+            user_status =  #{userStatus,jdbcType=INTEGER}
+        where   user_id = #{userId,jdbcType=INTEGER} 
+    </update>
+</mapper>

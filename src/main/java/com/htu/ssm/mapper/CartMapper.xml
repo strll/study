@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.htu.ssm.mapper.CartMapper">
+
+    <resultMap id="BaseResultMap" type="com.htu.ssm.po.Cart">
+            <id property="cartId" column="cart_id" jdbcType="INTEGER"/>
+            <result property="cartFoodId" column="cart_food_id" jdbcType="INTEGER"/>
+            <result property="cartUserId" column="cart_user_id" jdbcType="INTEGER"/>
+            <result property="cartQuantity" column="cart_quantity" jdbcType="INTEGER"/>
+            <result property="cartMoney" column="cart_money" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        cart_id,cart_food_id,cart_user_id,
+        cart_quantity,cart_money
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from cart
+        where  cart_id = #{cartId,jdbcType=INTEGER} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from cart
+        where  cart_id = #{cartId,jdbcType=INTEGER} 
+    </delete>
+    <insert id="insert" keyColumn="cart_id" keyProperty="cartId" parameterType="com.htu.ssm.po.Cart" useGeneratedKeys="true">
+        insert into cart
+        ( cart_id,cart_food_id,cart_user_id
+        ,cart_quantity,cart_money)
+        values (#{cartId,jdbcType=INTEGER},#{cartFoodId,jdbcType=INTEGER},#{cartUserId,jdbcType=INTEGER}
+        ,#{cartQuantity,jdbcType=INTEGER},#{cartMoney,jdbcType=DOUBLE})
+    </insert>
+    <insert id="insertSelective" keyColumn="cart_id" keyProperty="cartId" parameterType="com.htu.ssm.po.Cart" useGeneratedKeys="true">
+        insert into cart
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="cartId != null">cart_id,</if>
+                <if test="cartFoodId != null">cart_food_id,</if>
+                <if test="cartUserId != null">cart_user_id,</if>
+                <if test="cartQuantity != null">cart_quantity,</if>
+                <if test="cartMoney != null">cart_money,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="cartId != null">#{cartId,jdbcType=INTEGER},</if>
+                <if test="cartFoodId != null">#{cartFoodId,jdbcType=INTEGER},</if>
+                <if test="cartUserId != null">#{cartUserId,jdbcType=INTEGER},</if>
+                <if test="cartQuantity != null">#{cartQuantity,jdbcType=INTEGER},</if>
+                <if test="cartMoney != null">#{cartMoney,jdbcType=DOUBLE},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.htu.ssm.po.Cart">
+        update cart
+        <set>
+                <if test="cartFoodId != null">
+                    cart_food_id = #{cartFoodId,jdbcType=INTEGER},
+                </if>
+                <if test="cartUserId != null">
+                    cart_user_id = #{cartUserId,jdbcType=INTEGER},
+                </if>
+                <if test="cartQuantity != null">
+                    cart_quantity = #{cartQuantity,jdbcType=INTEGER},
+                </if>
+                <if test="cartMoney != null">
+                    cart_money = #{cartMoney,jdbcType=DOUBLE},
+                </if>
+        </set>
+        where   cart_id = #{cartId,jdbcType=INTEGER} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.htu.ssm.po.Cart">
+        update cart
+        set 
+            cart_food_id =  #{cartFoodId,jdbcType=INTEGER},
+            cart_user_id =  #{cartUserId,jdbcType=INTEGER},
+            cart_quantity =  #{cartQuantity,jdbcType=INTEGER},
+            cart_money =  #{cartMoney,jdbcType=DOUBLE}
+        where   cart_id = #{cartId,jdbcType=INTEGER} 
+    </update>
+</mapper>
