@@ -24,6 +24,7 @@ public class FoodController {
     }
     @PostMapping("/del")
     public int delFoodByNo(Long foodCateId){
+
         return foodService.delFoodByNo(foodCateId);
     }
 
